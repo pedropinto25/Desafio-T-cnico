@@ -1,9 +1,13 @@
 <?php
-require_once __DIR__ . '/../vendor/autoload.php';
+namespace Config;
+
+require_once __DIR__ . '/../../vendor/autoload.php';
 
 use Dotenv\Dotenv;
+use PDO;
+use PDOException;
 
-$dotenv = Dotenv::createImmutable(__DIR__ . '/../');
+$dotenv = Dotenv::createImmutable(__DIR__ . '/../../');
 $dotenv->load();
 
 class Database {
@@ -29,6 +33,10 @@ class Database {
             echo "Connection error: " . $exception->getMessage();
         }
         return $this->conn;
+    }
+
+    public function isConnected() {
+        return $this->getConnection() !== null;
     }
 }
 ?>
