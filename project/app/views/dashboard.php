@@ -1,19 +1,41 @@
+<?php
+session_start();
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $action = $_POST['action'];
+    if ($action == 'entrada') {
+        $_SESSION['start_time'] = time();
+        $message = "Entrada registrada!";
+    } elseif ($action == 'saida') {
+        unset($_SESSION['start_time']);
+        $message = "Saída registrada!";
+    }
+}
+?>
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="public/css/styles.css">
-    <script src="public/js/scripts.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Entrada e Saída</title>
+    <link rel="stylesheet" href="../../public/css/stylesDashboard.css">
 </head>
 <body>
-    <div class="dashboard-container">
-        <h1>Dashboard</h1>
-        <div class="task-container">
-            <h2>Registo de Ponto</h2>
-            <button id="start-task">Iniciar Tarefa</button>
-            <div id="countdown"></div>
-        </div>
+    <div class="container">
+        <h2>Registro de Entrada e Saída</h2>
+        <?php if (isset($message)) { echo "<p>$message</p>"; } ?>
+        <form action="" method="POST">
+            <button type="submit" name="action" value="entrada">Registrar Entrada</button>
+            <button type="submit" name="action" value="saida">Registrar Saída</button>
+        </form>
+        <?php if (isset($_SESSION['start_time'])): ?>
+            <button onclick="startCountdown()">Iniciar Tarefa</button>
+        <?php endif; ?>
     </div>
+    <script>
+        function startCountdown() {
+            window.location.href = 'countdown.php';
+        }
+    </script>
 </body>
 </html>

@@ -9,20 +9,45 @@ class UserController {
     public function __construct() {
         $this->model = new UserModel();
     }
+    public function registerUser($name, $email, $password, $role) {
+        // Hash the password
+        $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
-    public function registerUser($name, $email, $password) {
-        return $this->model->createUser($name, $email, $password);
+        // Create a new user model instance
+        $userModel = new UserModel();
+
+        // Register the user
+        return $userModel->createUser($name, $email, $hashedPassword, $role);
     }
 
     public function loginUser($email, $password) {
-        $user = $this->model->getUserByEmail($email);
+        $userModel = new UserModel();
+        $user = $userModel->getUserByEmail($email);
+
         if ($user && password_verify($password, $user['password'])) {
-            // Iniciar sessão do utilizador
+            // Iniciar sessão e armazenar informações do usuário
+            session_start();
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['user_role'] = $user['role'];
+
             return true;
         }
+
         return false;
     }
 
-    // Outros métodos para gerir utilizadores (update, delete, etc.)
+    public function editUser($id, $name, $email, $role) {
+        // Create a new user model instance
+        $userModel = new UserModel();
+
+        // Edit the user
+        return $userModel->updateUser($id, $name, $email, null, $role);
+    }
+
+    public function getUserById($id) {
+        // Assuming you have a User model with a method to find a user by ID
+        $userModel = new UserModel();
+        return $userModel->getUserById($id);
+    }
 }
 ?>
