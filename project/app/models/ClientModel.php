@@ -81,6 +81,17 @@ class ClientModel {
         $stmt->bindParam(':notes', $notes);
         return $stmt->execute();
     }
+    public function getCallStatistics($client_id) {
+        $query = "SELECT 
+                    COUNT(*) AS total_calls, 
+                    SUM(CASE WHEN status != 'Não Atendido' THEN 1 ELSE 0 END) AS attended_calls 
+                  FROM call_history 
+                  WHERE client_id = :client_id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':client_id', $client_id);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }
 
 ?>

@@ -45,5 +45,9 @@ class ClientController {
     public function saveCallResult($client_id, $status, $notes) {
         return $this->model->saveCallResult($client_id, $status, $notes);
     }
+
+    public function getCallStatistics($client_id) {
+        return $this->model->getCallStatistics($client_id);
+    }
 }
 ?>

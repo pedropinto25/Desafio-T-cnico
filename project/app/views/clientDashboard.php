@@ -1,14 +1,27 @@
 <?php
 session_start();
 require_once '../controllers/ClientController.php';
+require_once '../controllers/UserController.php';
 require_once "../../../vendor/autoload.php";
 
 $clientController = new \App\Controllers\ClientController();
+$userController = new \App\Controllers\UserController();
+
 $client_id = $_GET['id'] ?? null;
 $client = null;
 
 if ($client_id) {
     $client = $clientController->getClientById($client_id);
+}
+
+$user = null;
+if (isset($_SESSION['user_id'])) {
+    $user = $userController->getUserById($_SESSION['user_id']);
+}
+
+$callStatistics = null;
+if ($client_id) {
+    $callStatistics = $clientController->getCallStatistics($client_id);
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -45,10 +58,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <header>
             <h1>Ficha do Cliente</h1>
             <div class="user-info">
-                <img src="../../public/images/user-avatar.jpg" alt="João Silva">
+                <img src="<?php echo htmlspecialchars($user['image'] ?? '../../public/images/user-avatar.jpg'); ?>" alt="<?php echo htmlspecialchars($user['name'] ?? ''); ?>" class="user-avatar">
                 <div>
-                    <h2>João Silva</h2>
-                    <p>WC | Almoço | E Mails | Pausa</p>
+                    <h2><?php echo htmlspecialchars($user['name'] ?? ''); ?></h2>
+                    <p><?php echo htmlspecialchars($user['role'] ?? ''); ?></p>
                 </div>
             </div>
         </header>
@@ -165,19 +178,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <form method="POST">
                     <textarea name="observations" placeholder="Observações..."></textarea>
                     <div class="buttons">
-                        <button class="btn red" name="call_result" value="Não Atendido"><i class="fas fa-phone-slash"></i> Não Atendido</button>
+                        <button class="btn red" name="call_result" value="Não Atendeu"><i class="fas fa-phone-slash"></i> Não Atendeu</button>
                         <button class="btn yellow" name="call_result" value="Não Aderiu"><i class="fas fa-times-circle"></i> Não Aderiu</button>
                         <button class="btn blue" name="call_result" value="Chamada Agendada" onclick="validateForm(event)"><i class="fas fa-calendar-alt"></i> Agendar Chamada</button>
                         <button class="btn green" name="call_result" value="Marcar Reunião" onclick="validateForm(event)"><i class="fas fa-handshake"></i> Marcar Reunião</button>
                     </div>
                 </form>
+                <br>
+                <h2>Estatísticas de Chamadas</h2>
+                <p>Chamadas atendidas: <?php echo htmlspecialchars($callStatistics['attended_calls'] ?? 0); ?> / <?php echo htmlspecialchars($callStatistics['total_calls'] ?? 0); ?></p>
             </section>
             <section class="interaction-history">
                 <h2>Histórico de Interações</h2>
                 <ul>
                     <?php if (isset($client['interactions'])): ?>
                         <?php foreach ($client['interactions'] as $interaction): ?>
-                            <li>
+                            <?php
+                            $interactionClass = '';
+                            switch ($interaction['status']) {
+                                case 'Atendido':
+                                    $interactionClass = 'attended';
+                                    break;
+                                case 'Não Atendeu':
+                                    $interactionClass = 'not-attended';
+                                    break;
+                                case 'Chamada Agendada':
+                                    $interactionClass = 'scheduled';
+                                    break;
+                                case 'Não Aderiu':
+                                    $interactionClass = 'not-interested';
+                                    break;
+                            }
+                            ?>
+                            <li class="<?php echo $interactionClass; ?>">
                                 <span><?php echo date('d M Y, H:i', strtotime($interaction['call_time'])); ?></span>
                                 <span><?php echo htmlspecialchars($interaction['status']); ?></span>
                                 <p><?php echo htmlspecialchars($interaction['notes']); ?></p>

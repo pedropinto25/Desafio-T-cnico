@@ -73,7 +73,8 @@ CREATE TABLE call_history (
     id INT AUTO_INCREMENT PRIMARY KEY,
     client_id INT NOT NULL,
     call_time DATETIME NOT NULL,
-    status ENUM('Chamada Agendada', 'Não Aderiu', 'Atendido') NOT NULL,
+    status ENUM('Chamada Agendada', 'Não Aderiu', 'Atendido', 'Não Atendido') NOT NULL,
     notes TEXT,
     FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE CASCADE
 );
+
