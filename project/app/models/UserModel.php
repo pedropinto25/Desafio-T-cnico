@@ -12,17 +12,15 @@ class UserModel {
         $this->conn = $database->getConnection();
     }
 
-    public function createUser($name, $email, $password, $role) {
-        $query = "INSERT INTO " . $this->table_name . " (name, email, password, role) VALUES (:name, :email, :password, :role)";
+    public function createUser($name, $email, $password, $role, $imageBase64 = null) {
+        $query = "INSERT INTO " . $this->table_name . " (name, email, password, role, image) VALUES (:name, :email, :password, :role, :image)";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":name", $name);
         $stmt->bindParam(":email", $email);
-        
-        // Atribuir o resultado de password_hash a uma variável
-        $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-        $stmt->bindParam(":password", $hashedPassword);
+        $stmt->bindParam(":password", $password);
         $stmt->bindParam(":role", $role);
-        
+        $stmt->bindParam(":image", $imageBase64);
+
         return $stmt->execute();
     }
 

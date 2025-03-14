@@ -174,17 +174,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
             </section>
             <section class="call-result">
-                <h2>Resultado da Chamada</h2>
-                <form method="POST">
-                    <textarea name="observations" placeholder="Observações..."></textarea>
-                    <div class="buttons">
-                        <button class="btn red" name="call_result" value="Não Atendeu"><i class="fas fa-phone-slash"></i> Não Atendeu</button>
-                        <button class="btn yellow" name="call_result" value="Não Aderiu"><i class="fas fa-times-circle"></i> Não Aderiu</button>
-                        <button class="btn blue" name="call_result" value="Chamada Agendada" onclick="validateForm(event)"><i class="fas fa-calendar-alt"></i> Agendar Chamada</button>
-                        <button class="btn green" name="call_result" value="Marcar Reunião" onclick="validateForm(event)"><i class="fas fa-handshake"></i> Marcar Reunião</button>
-                    </div>
-                </form>
-                <br>
                 <h2>Estatísticas de Chamadas</h2>
                 <p>Chamadas atendidas: <?php echo htmlspecialchars($callStatistics['attended_calls'] ?? 0); ?> / <?php echo htmlspecialchars($callStatistics['total_calls'] ?? 0); ?></p>
             </section>

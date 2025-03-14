@@ -1,0 +1,124 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    width: 80%;
+    max-width: 600px;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    text-align: center;
+}
+
+h2 {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+#countdown {
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
+.pause-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.pause-buttons button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#pause-lunch {
+    background-color: #ffcc00;
+    color: #fff;
+}
+
+#pause-lunch:hover {
+    background-color: #e6b800;
+}
+
+#pause-wc {
+    background-color: #00ccff;
+    color: #fff;
+}
+
+#pause-wc:hover {
+    background-color: #0099cc;
+}
+
+#pause-email {
+    background-color: #ff6600;
+    color: #fff;
+}
+
+#pause-email:hover {
+    background-color: #cc5200;
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.popup-content h3 {
+    margin-top: 0;
+}
+
+.popup-content button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 10px;
+    transition: background-color 0.3s ease;
+}
+
+#resume-button {
+    background-color: #28a745;
+    color: #fff;
+}
+
+#resume-button:hover {
+    background-color: #218838;
+}
+
+#dashboard-button {
+    background-color: #007bff;
+    color: #fff;
+}
+
+#dashboard-button:hover {
+    background-color: #0056b3;
+}

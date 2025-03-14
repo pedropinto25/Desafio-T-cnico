@@ -189,7 +189,7 @@ section h2 {
     margin: 5px 0 0;
 }
 
-/* Estilo para a seção de tipo de negócio */
+
 .business-type-section {
     border: 2px solid #3498db;
     padding: 10px;
@@ -197,7 +197,7 @@ section h2 {
     margin-bottom: 15px;
 }
 
-/* Estilo para as checkboxes */
+
 input[type="checkbox"]:checked {
     background-color: #3498db;
     border-color: #3498db;

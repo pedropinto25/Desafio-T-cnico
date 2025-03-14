@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $client_id = $clientController->createClient($data);
     if ($client_id) {
-        header("Location: clientDashboard.php?id=" . $client_id);
+        header("Location: clientView.php?id=" . $client_id);
         exit;
     } else {
         $error = "Failed to create client.";
@@ -69,6 +69,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="container">
         <header>
             <h1>Adicionar Cliente</h1>
+            <button onclick="window.location.href='dashboardAdmin.php'" class="back-button">
+                <i class="fas fa-arrow-left"></i> Voltar à Dashboard
+            </button>
         </header>
         <main>
             <?php if (isset($error)): ?>

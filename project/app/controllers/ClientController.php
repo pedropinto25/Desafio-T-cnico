@@ -66,5 +66,21 @@ class ClientController {
     public function getLastInsertedId() {
         return $this->model->getLastInsertedId();
     }
+
+    public function getRandomClientId() {
+        $clients = $this->model->getAllClients();
+        if (count($clients) > 0) {
+            $randomIndex = array_rand($clients);
+            return $clients[$randomIndex]['id'];
+        }
+        return null;
+    }
+    public function searchClients($search, $searchBy) {
+        return $this->model->searchClients($search, $searchBy);
+    }
+
+    public function editClient($id, $company_name, $nif, $cae_codes, $incorporation_year, $business_volume, $avg_monthly_revenue, $num_employees, $sells_products, $provides_services, $products, $services, $ideal_client_sector, $business_challenges) {
+        return $this->model->editClient($id, $company_name, $nif, $cae_codes, $incorporation_year, $business_volume, $avg_monthly_revenue, $num_employees, $sells_products, $provides_services, $products, $services, $ideal_client_sector, $business_challenges);
+    }
 }
 ?>

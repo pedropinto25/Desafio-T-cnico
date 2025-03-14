@@ -164,5 +164,34 @@ class ClientModel {
     public function getLastInsertedId() {
         return $this->conn->lastInsertId();
     }
+
+    public function searchClients($search, $searchBy) {
+        $query = "SELECT * FROM clients WHERE $searchBy LIKE :search";
+        $stmt = $this->conn->prepare($query);
+        $search = "%$search%";
+        $stmt->bindParam(':search', $search);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function editClient($id, $company_name, $nif, $cae_codes, $incorporation_year, $business_volume, $avg_monthly_revenue, $num_employees, $sells_products, $provides_services, $products, $services, $ideal_client_sector, $business_challenges) {
+        $query = "UPDATE clients SET company_name = :company_name, nif = :nif, cae_codes = :cae_codes, incorporation_year = :incorporation_year, business_volume = :business_volume, avg_monthly_revenue = :avg_monthly_revenue, num_employees = :num_employees, sells_products = :sells_products, provides_services = :provides_services, products = :products, services = :services, ideal_client_sector = :ideal_client_sector, business_challenges = :business_challenges WHERE id = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':company_name', $company_name);
+        $stmt->bindParam(':nif', $nif);
+        $stmt->bindParam(':cae_codes', $cae_codes);
+        $stmt->bindParam(':incorporation_year', $incorporation_year);
+        $stmt->bindParam(':business_volume', $business_volume);
+        $stmt->bindParam(':avg_monthly_revenue', $avg_monthly_revenue);
+        $stmt->bindParam(':num_employees', $num_employees);
+        $stmt->bindParam(':sells_products', $sells_products);
+        $stmt->bindParam(':provides_services', $provides_services);
+        $stmt->bindParam(':products', $products);
+        $stmt->bindParam(':services', $services);
+        $stmt->bindParam(':ideal_client_sector', $ideal_client_sector);
+        $stmt->bindParam(':business_challenges', $business_challenges);
+        return $stmt->execute();
+    }
 }
 ?>
