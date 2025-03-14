@@ -11,10 +11,23 @@ class ClientController {
     }
 
     public function createClient($data) {
-        if ($this->model->createClient($data)) {
-            return "Client created successfully.";
-        } else {
-            return "Failed to create client.";
+        $this->model->beginTransaction();
+        try {
+            if ($this->model->createClient($data)) {
+                $client_id = $this->model->getLastInsertedId();
+                $this->model->addClientPhones($client_id, $data['phones']);
+                $this->model->addClientEmails($client_id, $data['emails']);
+                $this->model->addClientAddresses($client_id, $data['addresses']);
+                $this->model->addClientDecisionMakers($client_id, $data['decision_makers']);
+                $this->model->commit();
+                return $client_id; 
+            } else {
+                $this->model->rollBack();
+                return false;
+            }
+        } catch (\Exception $e) {
+            $this->model->rollBack();
+            return false;
         }
     }
 
@@ -48,6 +61,10 @@ class ClientController {
 
     public function getCallStatistics($client_id) {
         return $this->model->getCallStatistics($client_id);
+    }
+
+    public function getLastInsertedId() {
+        return $this->model->getLastInsertedId();
     }
 }
 ?>
