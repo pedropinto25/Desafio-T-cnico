@@ -15,9 +15,14 @@ class WorkSessionController {
     }
 
     public function endWorkSession($id, $end_time) {
-        return $this->model->endWorkSession($id, $end_time);
+        return $this->model->completeWorkSession($id, $end_time);
     }
 
-    // Outros métodos para gerenciar sessões de trabalho (get, update, delete, etc.)
+    public function getActiveWorkSession($user_id) {
+        return $this->model->getActiveWorkSession($user_id);
+    }
+
+    public function getWorkSessionsByUser($user_id) {
+        return $this->model->getWorkSessionsByUser($user_id);
+    }
 }
-?>

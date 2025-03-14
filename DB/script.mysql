@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE TABLE IF NOT EXISTS work_sessions (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
-    start_time TIMESTAMP NOT NULL,
+    start_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     end_time TIMESTAMP NULL,
     status ENUM('active', 'completed') DEFAULT 'active',
     FOREIGN KEY (user_id) REFERENCES users(id)
@@ -27,4 +27,53 @@ CREATE TABLE IF NOT EXISTS tasks (
     end_time TIMESTAMP NULL,
     status ENUM('pending', 'in_progress', 'completed') DEFAULT 'pending',
     FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+-- Tabela principal: clients
+CREATE TABLE clients (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nif VARCHAR(20) NOT NULL UNIQUE,
+    company_name VARCHAR(255) NOT NULL,
+    cae_codes VARCHAR(255),
+    incorporation_year INT,
+    business_volume DECIMAL(15,2),
+    avg_monthly_revenue DECIMAL(15,2),
+    num_employees INT,
+    sells_products BOOLEAN DEFAULT 0,
+    provides_services BOOLEAN DEFAULT 0,
+    possible_consultant BOOLEAN DEFAULT 0,
+    products TEXT,
+    services TEXT,
+    ideal_client_sector TEXT,
+    business_challenges TEXT
+);
+
+-- Tabela para contatos do cliente
+CREATE TABLE client_contacts (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    client_id INT NOT NULL,
+    type ENUM('phone', 'email', 'address') NOT NULL,
+    value VARCHAR(255) NOT NULL,
+    label VARCHAR(100),
+    FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE CASCADE
+);
+
+-- Tabela para decisores da empresa
+CREATE TABLE client_decision_makers (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    client_id INT NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    position VARCHAR(255),
+    is_primary BOOLEAN DEFAULT 0,
+    FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE CASCADE
+);
+
+-- Tabela para histórico de chamadas
+CREATE TABLE call_history (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    client_id INT NOT NULL,
+    call_time DATETIME NOT NULL,
+    status ENUM('Chamada Agendada', 'Não Aderiu', 'Atendido') NOT NULL,
+    notes TEXT,
+    FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE CASCADE
 );

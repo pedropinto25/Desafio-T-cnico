@@ -1,13 +1,38 @@
 <?php
 session_start();
+require_once '../controllers/WorkSessionController.php';
+require_once '../models/WorkSessionModel.php';
+require_once "../../../vendor/autoload.php";
+
+$controller = new \App\Controllers\WorkSessionController();
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $action = $_POST['action'];
-    if ($action == 'entrada') {
-        $_SESSION['start_time'] = time();
-        $message = "Entrada registrada!";
-    } elseif ($action == 'saida') {
-        unset($_SESSION['start_time']);
-        $message = "Saída registrada!";
+    $user_id = $_SESSION['user_id']; // ID do usuário logado
+
+    switch ($action) {
+        case 'entrada':
+            $_SESSION['start_time'] = time();
+            $start_time = date('Y-m-d H:i:s', $_SESSION['start_time']);
+            $controller->startWorkSession($user_id, $start_time);
+            $message = "Entrada registrada!";
+            break;
+
+        case 'saida':
+            $activeSession = $controller->getActiveWorkSession($user_id);
+            if ($activeSession) {
+                $end_time = date('Y-m-d H:i:s');
+                $controller->endWorkSession($activeSession['id'], $end_time);
+                //unset($_SESSION['start_time']);
+                $message = "Saída registrada!";
+            } else {
+                $message = "Nenhuma sessão ativa encontrada!";
+            }
+            break;
+
+        default:
+            $message = "Ação desconhecida!";
+            break;
     }
 }
 ?>
