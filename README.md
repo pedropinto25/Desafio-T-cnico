@@ -2,7 +2,7 @@
 
 ## Descrição
 
-Este projeto é uma aplicação web desenvolvida em PHP para gerenciar clientes e usuários. A aplicação inclui funcionalidades como login, listagem de clientes, edição de clientes, entre outras.
+Este projeto é uma aplicação web desenvolvida em PHP para gerenciar clientes e utilizadores. A aplicação inclui funcionalidades como login, listagem de clientes, edição de clientes, entre outras.
 
 ## Estrutura do Projeto
 Desafio-T-cnico/
@@ -28,13 +28,13 @@ Desafio-T-cnico/
 - PHP 7.4 ou superior
 - Composer
 - Servidor web (Apache, Nginx, etc.)
-- Banco de dados MySQL
+- Base de dados MySQL
 
 ## Instalação
 
 1. Clone o repositório para o seu ambiente local:
 
-   git clone https://github.com/seu-usuario/seu-repositorio.git
+   git clone https://github.com/pedropinto25/Desafio-T-cnico.git
    
 2. Navegue até ao diretório do projeto:
 cd -repositorio
@@ -70,3 +70,4 @@ Decisões Técnicas
 ### Conclusão
 
 Este README fornece uma visão geral abrangente do projeto, incluindo instruções de instalação, configuração, uso e decisões técnicas. 
+git 
